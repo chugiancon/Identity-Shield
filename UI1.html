@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Camera Interface</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+    }
+
+    .container {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px;
+      align-items: flex-start;
+    }
+
+    .left-panel {
+      width: 70%;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .buttons button {
+      flex: 1;
+      padding: 10px;
+      margin: 0 10px;
+      display: block;
+      width: 100%;
+      padding: 15px;
+      margin-bottom: 15px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      background-color: #f0f0f0;
+      cursor: pointer;
+    }
+
+    .video-screen {
+      position: relative;
+      width: 100%;
+      height: 500px;
+      background-color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 100px;
+      position: relative;
+    }
+
+    #camera-feed {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .controls {
+      display: flex;
+    }
+
+    .camera-name {
+      position: absolute;
+      top: 10px;
+      right: 430px;
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+
+    .camera-name span {
+      font-size: 14px;
+      color: #333;
+    }
+
+    .buttons button.active {
+      background-color: #f0f0f0;
+      color: black;
+    }
+
+    .right-panel {
+      width: 30%;
+      background-color: #ddd;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .right-panel h2 {
+      background-color: #ffa500;
+      color: white;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+
+    .activitie-list li {
+      margin-bottom: 10px;
+      padding: 10px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .activitie-list li:hover {
+      background-color: #f0f0f0;
+    }
+
+    #prev-,
+    #next {
+      width: 0;
+      height: 0;
+      border-top: 15px solid transparent;
+      border-bottom: 15px solid transparent;
+      cursor: pointer;
+    }
+
+    #prev {
+      border-right: 20px solid #333;
+      margin-right: 10px;
+    }
+
+    #next {
+      border-left: 20px solid #333;
+      margin-left: 10px;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+      justify-content: space-between;
+      padding: 0 60px;
+    }
+
+    .settings-menu {
+      display: none;
+      margin-top: 60px;
+      position: absolute;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+      margin-left: 661px;
+      width: 19.5%;
+      z-index: 1;
+    }
+
+    .settings-menu a {
+      display: block;
+      padding: 10px;
+      text-decoration: none;
+      color: #333;
+      border-radius: 5px;
+      margin-bottom: 5px;
+      background-color: #f0f0f0;
+    }
+
+    .settings-menu a:hover {
+      background-color: #ddd;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="left-panel">
+      <div class="buttons">
+        <button class="active">Camera</button>
+        <button>Review</button>
+        <button onclick="toggleSettingsMenu()">Setting</button>
+        <div class="settings-menu">
+          <a href="#">Member list</a>
+          <a href="#">Add email member</a>
+        </div>
+      </div>
+      <div class="video-screen">
+        <video id="camera-feed" autoplay></video>
+        <div class="camera-name">
+          <span>Camera Name</span>
+        </div>
+        <div class="controls">
+          <button id="prev"></button>
+          <button id="next-"></button>
+        </div>
+      </div>
+    </div>
+    <div class="right-panel">
+      <h2>List</h2>
+      <ul class="activitie-list">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    function toggleSettingsMenu() {
+      var settingsMenu = document.querySelector(".settings-menu");
+      settingsMenu.style.display =
+        settingsMenu.style.display === "block" ? "none" : "block";
+    }
+
+    async function startCamera() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        const video = document.getElementById("camera-feed");
+        video.srcObject = stream;
+      } catch (error) {
+        console.error("Error accessing the camera:", error);
+      }
+    }
+
+    window.onload = function() {
+      startCamera();
+    };
+  </script>
+</body>
+</html>
